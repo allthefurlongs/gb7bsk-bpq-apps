@@ -9,7 +9,8 @@ with open('report-to-map.json') as f:
 gps = None
 lon = None
 lat = None
-locator = None
+maidenhead = None
+randomise = None
 
 # Unless configured otherwise, BPQ sends the user callsign at the start
 user_call = sys.stdin.readline().rstrip()
@@ -20,21 +21,16 @@ print("MAP command - report your location to https://nodes.ukpacketradio.network
 print("")
 print("Enter /q to quit at any prompt to abort reporting to the map.")
 print("")
-print("GPS coords (e.g. 51.59777, 1.34220 or blank to use maidenhead locator instead): ", end="")
+
+
+print("GPS (e.g. 51.59777, 1.34220), or maidenhead grid (eg. IO90ro): ", end="")
 sys.stdout.flush()
-gps = sys.stdin.readline().rstrip()
-if gps == '/q':
+location = sys.stdin.readline().rstrip()
+if location == '/q':
   print("MAP aborted, returning to node.")
   exit()
-if gps == '':
-  print("Maidenhead locator: : ", end="")
-  sys.stdout.flush()
-  maidenhead = sys.stdin.readline().rstrip()
-  if maidenhead == '/q':
-    print("MAP aborted, returning to node.")
-    exit()
-else:
-  fields = gps.split(',')
+if ',' in location:
+  fields = location.split(',')
   if len(fields) != 2:
     print("Unrecognised GPS coordinates. Expected lat lon format: 51.59777, 1.34220")
     print("MAP aborted, returning to node.")
@@ -47,7 +43,8 @@ else:
     print("Unrecognised GPS coordinates. Expected format: 51.59777, 1.34220")
     print("MAP aborted, returning to node.")
     exit()
-randomise = None
+else:
+  maidenhead = location
 print("Slightly randomise your location on the map [Y/N]: ", end="")
 sys.stdout.flush()
 while randomise != 'Y' and randomise != 'N' and randomise != '/Q':
@@ -85,8 +82,8 @@ report = {
     }
   ]
 }
-if locator is not None:
-  report['locator'] = locator
+if maidenhead is not None:
+  report['locator'] = maidenhead
 if gps is not None:
   report['coords'] = {
     "lat": lat,
