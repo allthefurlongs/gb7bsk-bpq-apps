@@ -6,7 +6,6 @@ import requests
 with open('report-to-map.json') as f:
     conf = json.load(f)
 
-gps = None
 lon = None
 lat = None
 maidenhead = None
@@ -21,8 +20,6 @@ print("MAP command - report your location to https://nodes.ukpacketradio.network
 print("")
 print("Enter /q to quit at any prompt to abort reporting to the map.")
 print("")
-
-
 print("GPS (e.g. 51.59777, 1.34220), or maidenhead grid (eg. IO90ro): ", end="")
 sys.stdout.flush()
 location = sys.stdin.readline().rstrip()
@@ -60,11 +57,7 @@ if randomise == '/Q':
 now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 report = {
   "location": {
-    "randomised": randomise == 'Y',
-    "coords": {
-      "lat": 0,
-      "lon": 0
-    },
+    "randomised": randomise == 'Y'
   },
   "sysopComment": f"Reported via MAP command on {conf['node_call']}",
   "source": "ReportedByNode",
@@ -83,9 +76,9 @@ report = {
   ]
 }
 if maidenhead is not None:
-  report['locator'] = maidenhead
-if gps is not None:
-  report['coords'] = {
+  report['location']['locator'] = maidenhead
+elif lat is not None and lon is not None:
+  report['location']['coords'] = {
     "lat": lat,
     "lon": lon
   }
