@@ -11,15 +11,15 @@ lon = None
 lat = None
 locator = None
 
+# Unless configured otherwise, BPQ sends the user callsign at the start
+user_call = sys.stdin.readline().rstrip()
+user_call = user_call.upper()
+
 print("")
 print("MAP command - report your location to https://nodes.ukpacketradio.network/packet-network-map.html")
 print("")
 print("Enter /q to quit at any prompt to abort reporting to the map.")
 print("")
-print("Enter your callsign: ", end="")
-sys.stdout.flush()
-user_call = sys.stdin.readline().rstrip()
-user_call = user_call.upper()
 print("GPS coords (e.g. 51.59777, 1.34220 or blank to use maidenhead locator instead): ", end="")
 sys.stdout.flush()
 gps = sys.stdin.readline().rstrip()
