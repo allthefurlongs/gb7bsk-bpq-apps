@@ -77,12 +77,15 @@ try:
         elif input == 'P':
             print("Enter your one-line message, 250 chars max:")
             new_msg = sys.stdin.readline().rstrip()
-            cur.execute('insert into wall (callsign, message) values (?, ?)', (user_call, new_msg))
-            walldb.commit()
-            print("Message posted.")
-            msgs_per_page = conf['msgs_per_page']
-            current_page = 0
-            print_messages()
+            if len(new_msg) > 0 and not new_msg.startswith('*** Disconnected from Stream'):
+                cur.execute('insert into wall (callsign, message) values (?, ?)', (user_call, new_msg))
+                walldb.commit()
+                print("Message posted.")
+                msgs_per_page = conf['msgs_per_page']
+                current_page = 0
+                print_messages()
+            else:
+                print("Empty message, not posted")
             prompt()
         else:
             print("Unrecognised option.")
