@@ -49,6 +49,7 @@ try:
             exit()
         elif input == 'C':
             print("Enter new number of messages to display per page:")
+            sys.stdout.flush()
             num = sys.stdin.readline().rstrip()
             try:
                 num = int(num)
@@ -66,6 +67,7 @@ try:
             prompt()
         elif input == 'S':
             print("Enter page number:")
+            sys.stdout.flush()
             num = sys.stdin.readline().rstrip()
             try:
                 current_page = int(num) - 1  # We number internally from 0
@@ -76,6 +78,7 @@ try:
                 prompt()
         elif input == 'P':
             print("Enter your one-line message, 250 chars max:")
+            sys.stdout.flush()
             new_msg = sys.stdin.readline().rstrip()
             if len(new_msg) > 0 and not new_msg.startswith('*** Disconnected from Stream'):
                 cur.execute('insert into wall (callsign, message) values (?, ?)', (user_call, new_msg))
