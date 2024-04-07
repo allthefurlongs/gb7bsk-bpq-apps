@@ -1,0 +1,9 @@
+[Unit]
+Description=BPQ Wall Socket
+
+[Socket]
+ListenStream=6789
+Accept=yes
+
+[Install]
+WantedBy=sockets.target

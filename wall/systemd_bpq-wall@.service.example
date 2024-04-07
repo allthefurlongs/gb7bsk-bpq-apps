@@ -1,0 +1,7 @@
+[Unit]
+Description=BPQ Wall
+
+[Service]
+WorkingDirectory=/home/user/gb7bsk-bpq-apps/wall
+ExecStart=/home/user/gb7bsk-bpq-apps/venv/bin/python wall.py
+StandardInput=socket
