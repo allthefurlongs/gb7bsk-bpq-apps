@@ -15,6 +15,7 @@ current_page = 0  # Page count starts from 0 to simplify sql 'limit' maths
 def prompt():
     # Note we number pages from 0 internaly, so +1 to make it clearer for the user
     print(f"\n(Page {current_page+1}) [N]ext Page, [P]ost a message, [S]et page no., [C]hange number of messages per page, [Q]uit:")
+    sys.stdout.flush()
 
 def print_messages():
     messages = cur.execute(f"select timestamp, callsign, message from wall order by timestamp desc limit {current_page * msgs_per_page}, {msgs_per_page}")
